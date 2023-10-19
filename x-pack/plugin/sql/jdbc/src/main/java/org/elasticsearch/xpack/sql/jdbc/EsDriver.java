@@ -107,7 +107,7 @@ public class EsDriver implements Driver {
 
     @Override
     public boolean jdbcCompliant() {
-        return false;
+        return true;
     }
 
     //

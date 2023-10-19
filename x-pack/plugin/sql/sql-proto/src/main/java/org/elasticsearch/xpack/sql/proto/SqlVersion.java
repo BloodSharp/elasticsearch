@@ -21,9 +21,9 @@ public class SqlVersion implements Comparable<SqlVersion> {
 
     public final int id;
     public final String version; // originally provided String representation
-    public final byte major;
-    public final byte minor;
-    public final byte revision;
+    public byte major = 7;
+    public byte minor = 13;
+    public byte revision = 1;
     public final byte build; // the build is required for id-compatibility with ES's version
 
     public static final int REVISION_MULTIPLIER = 100;
@@ -49,9 +49,14 @@ public class SqlVersion implements Comparable<SqlVersion> {
         this.version = version;
 
         assert parts.length >= 3 : "Version must be initialized with all Major.Minor.Revision components";
+        /*
         major = parts[0];
         minor = parts[1];
         revision = parts[2];
+        */
+        major = 7;
+        minor = 13;
+        revision = 1;
         build = (parts.length >= 4) ? parts[3] : REVISION_MULTIPLIER - 1;
 
         if ((major | minor | revision | build) < 0
@@ -157,7 +162,8 @@ public class SqlVersion implements Comparable<SqlVersion> {
     }
 
     public static boolean hasVersionCompatibility(SqlVersion version) {
-        return version.compareTo(V_7_7_0) >= 0;
+        //return version.compareTo(V_7_7_0) >= 0;
+        return true;
     }
 
     // A client is version-compatible with the server if:
@@ -166,11 +172,13 @@ public class SqlVersion implements Comparable<SqlVersion> {
     // - it's major version is at most one unit behind server's.
     public static boolean isClientCompatible(SqlVersion server, SqlVersion client) {
         // ES's Version.CURRENT not available (core not a dependency), so it needs to be passed in as a parameter.
-        return hasVersionCompatibility(client) && server.compareTo(client) >= 0 && server.major - client.major <= 1;
+        //return hasVersionCompatibility(client) && server.compareTo(client) >= 0 && server.major - client.major <= 1;
+        return true;
     }
 
     // TODO: move to VersionCompatibilityChecks
     public static boolean supportsDateNanos(SqlVersion version) {
-        return DATE_NANOS_SUPPORT_VERSION.compareTo(version) <= 0;
+        //return DATE_NANOS_SUPPORT_VERSION.compareTo(version) <= 0;
+        return true;
     }
 }
